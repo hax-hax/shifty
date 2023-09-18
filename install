@@ -1,0 +1,25 @@
+#!/usr/bin/env bash -e
+source "$(dirname "$0")/scripts/_common.sh"
+
+# Check if the first argument is provided and is one of 'remote' or 'local'
+if [ $# -lt 1 ] || ([ "$1" != "remote" ] && [ "$1" != "local" ]); then
+    echo "Usage: $0 <remote|local> [--dir=<value>] [--remote=<value>] [--max-size=<value>]"
+    exit 1
+fi
+
+# Set the first argument as the mode (remote or local)
+mode="$1"
+shift # Remove the mode argument from the list of arguments
+
+# Use command substitution to capture the values for dir and remote
+dir_value=$(get_from_args_or_prompt_with_default "dir" "~/Media" "$@")
+remote_value=$(get_from_args_or_prompt_with_default "remote" "box-crypt-chunked" "$@")
+max_size_value=$(get_from_args_or_prompt_with_default "max-size" "1.5T" "$@")
+shifty_dir=$(realpath $(get_from_args_or_default "shifty-dir" "$(dirname "$0")/.." "$@"))
+
+# Display the collected values
+log "Installing Shifty for $mode server with the following values:"
+echo "dir: $dir_value"
+echo "remote: $remote_value"
+echo "max_size: $max_size_value"
+echo "shifty_dir: $shifty_dir"

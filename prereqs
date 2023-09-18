@@ -1,0 +1,10 @@
+#!/usr/bin/env bash -e
+source "$(dirname "$0")/scripts/_common.sh"
+
+log "Checking for systemctl"
+try-command which systemctl
+
+log "Checking for watchexec"
+try-command which watchexec
+
+success "check ok!"
